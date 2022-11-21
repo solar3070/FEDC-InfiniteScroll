@@ -18,8 +18,9 @@ export default function PhotoList({ $target, initialState, onScrollEnded }) {
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && !this.state.isLoading) {
-          console.log(entry);
-          onScrollEnded();
+          if (this.state.photos.length < this.state.totalCount) {
+            onScrollEnded();
+          }
         }
       });
     },
