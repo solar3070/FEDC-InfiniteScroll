@@ -52,4 +52,13 @@ export default function PhotoList({ $target, initialState, onScrollEnded }) {
       onScrollEnded();
     }
   });
+
+  window.addEventListener("scroll", () => {
+    const isScrollEnded =
+      window.innerHeight + window.scrollY >= document.body.offsetHeight;
+
+    if (isScrollEnded && !this.state.isLoading) {
+      onScrollEnded();
+    }
+  });
 }
