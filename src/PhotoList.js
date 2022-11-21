@@ -28,8 +28,10 @@ export default function PhotoList({ $target, initialState, onScrollEnded }) {
       isInitialize = true;
     }
 
+    const { photos } = this.state;
+
     const $photos = $photoList.querySelector(".PhotoList__photos");
-    this.state.forEach((photo) => {
+    photos.forEach((photo) => {
       // photo의 id 기준으로 렌더링이 되어있는지 체크
       if ($photos.querySelector(`li[data-id="${photo.id}"]`) === null) {
         // 없으면 li 생성하고 $photos에 appendChild
@@ -46,7 +48,7 @@ export default function PhotoList({ $target, initialState, onScrollEnded }) {
   this.render();
 
   $photoList.addEventListener("click", (e) => {
-    if (e.target.className === "PhotoList__loadMore") {
+    if (e.target.className === "PhotoList__loadMore" && !this.state.isLoading) {
       onScrollEnded();
     }
   });

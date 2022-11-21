@@ -11,11 +11,15 @@ export default function App({ $target }) {
     limit: 5,
     nextStart: 0, // limit만큼 계속 더해짐
     photos: [],
+    isLoading: false,
   };
 
   const photoListComponent = new PhotoList({
     $target,
-    initialState: this.state.photos,
+    initialState: {
+      isLoading: this.state.isLoading,
+      photos: this.state.photos,
+    },
     onScrollEnded: async () => {
       await fetchPhotos();
     },
@@ -23,10 +27,18 @@ export default function App({ $target }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
-    photoListComponent.setState(nextState.photos);
+    photoListComponent.setState({
+      isLoading: this.state.isLoading,
+      photos: nextState.photos,
+    });
   };
 
   const fetchPhotos = async () => {
+    this.setState({
+      ...this.state,
+      isLoading: true,
+    });
+
     const { limit, nextStart } = this.state;
 
     const photos = await request(
@@ -36,6 +48,7 @@ export default function App({ $target }) {
       ...this.state,
       nextStart: nextStart + limit,
       photos: [...this.state.photos, ...photos], // === this.state.photos.concat(photos)
+      isLoading: false,
     });
   };
 
