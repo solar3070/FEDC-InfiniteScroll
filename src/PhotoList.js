@@ -23,7 +23,6 @@ export default function PhotoList({ $target, initialState, onScrollEnded }) {
     if (!isInitialize) {
       $photoList.innerHTML = `
       <ul class="PhotoList__photos"></ul>
-      <button class="PhotoList__loadMore" style="width: 100%; height: 200px; font-size: 20px;">Load More</button>
     `;
       isInitialize = true;
     }
@@ -46,12 +45,6 @@ export default function PhotoList({ $target, initialState, onScrollEnded }) {
   };
 
   this.render();
-
-  $photoList.addEventListener("click", (e) => {
-    if (e.target.className === "PhotoList__loadMore" && !this.state.isLoading) {
-      onScrollEnded();
-    }
-  });
 
   window.addEventListener("scroll", () => {
     const { isLoading, totalCount, photos } = this.state;
